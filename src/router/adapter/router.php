@@ -71,11 +71,11 @@ class router implements routerInterface
 			if($rules) {
 				$last    = &$rules;
 				$matches = [];
-				for($i=0,$count=count($nodes);$i<$count;$i++) {
-					if(isset($last[$nodes[$i]])) {
-						$last = &$last[$nodes[$i]];
-					} elseif(isset($last['*']) and ctype_alnum(strtr($nodes[$i], array(':'=>'', '_'=>'')))) {
-						$matches[] = $nodes[$i];
+				foreach($nodes as $node) {
+					if(isset($last[$node])) {
+						$last = &$last[$node];
+					} elseif(isset($last['*']) and ctype_alnum(strtr($node, array(':'=>'', '_'=>'')))) {
+						$matches[] = $node;
 						$last      = &$last['*'];
 					} else {
 						return false;
