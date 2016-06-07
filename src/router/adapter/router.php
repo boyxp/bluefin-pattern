@@ -3,15 +3,15 @@ declare(strict_types=1);
 namespace bluefin\pattern\router\adapter;
 use bluefin\base\registry\registry;
 use bluefin\pattern\router\router as routerInterface;
-class router implements routerInterface
+class router extends \injector implements routerInterface
 {
 	private $_registry = null;
 	private $_handle   = null;
 	private $_matches  = [];
 
-	public function __construct(registry $registry)
+	public function __construct(string $prefix='routes')
 	{
-		$this->_registry = $registry;
+		$this->_registry = static::$locator->make('registry', [$prefix]);
 	}
 
 	public function add(string $pattern, $handle):routerInterface
