@@ -7,7 +7,7 @@ class dispatcher implements dispatcherInterface
 	private $_aborted    = false;
 	private $_forwarding = false;
 	private $_forwarded  = false;
-	private $_contents   = null;
+	private $_content    = null;
 
 	/**
 	* dispatch
@@ -18,27 +18,27 @@ class dispatcher implements dispatcherInterface
 	* $dispatcher->dispatch('login');//函数调用
 	* $dispatcher->dispatch(function(){return rand(0, 99);});//闭包调用
 	*/
-	public function dispatch($handle, array $params=[])
+	public function dispatch($handle, array $params=[]):bool
 	{
 		if(is_array($handle) and is_string($handle[0]) and !$this->_forwarded and !$this->_aborted) {
 			$handle[0] = new $handle[0];
 		}
 
 		if($this->_forwarded) {
-			return $this->_contents;
+			return true;
 		}
 
 		if($this->_aborted) {
-			return;
+			return false;
 		}
 
-		$result = call_user_func_array($handle, $params);
+		$this->_content = call_user_func_array($handle, $params);
 
 		if($this->_forwarding) {
 			$this->_forwarded = true;
 		}
 
-		return $result;
+		return true;
 	}
 
 	public function abort():bool
@@ -53,7 +53,11 @@ class dispatcher implements dispatcherInterface
 		}
 
 		$this->_forwarding = true;
-		$this->_contents   = $this->dispatch($handle, $params);
-		return true;
+		return $this->dispatch($handle, $params);
+	}
+
+	public function getContent()
+	{
+		return $this->_content;
 	}
 }
