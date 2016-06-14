@@ -39,7 +39,9 @@ class mvc extends \injector implements appInterface
 			$content = static::$locator->dispatcher->getContent();
 		}
 
-		static::$locator->renderer->render($content);
+		if(!is_null($content)) {
+			static::$locator->renderer->render($content);
+		}
 
 		return $this;
 	}
