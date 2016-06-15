@@ -4,6 +4,14 @@ namespace bluefin\pattern\app\adapter;
 use bluefin\pattern\app\app as appInterface;
 class mvc extends \injector implements appInterface
 {
+	public function __construct(string $tplPath=null)
+	{
+		if(!is_null($tplPath)) {
+			static::$locator->alias('renderer', 'renderer_html');
+			static::$locator->bind('renderer', [$tplPath]);
+		}
+	}
+
 	public function route(string $subject=null):appInterface
 	{
 		if(is_null($subject)) {
