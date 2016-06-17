@@ -51,7 +51,7 @@ class cli extends \injector implements appInterface
 		}
 
 		if(!is_null($content)) {
-			static::$locator->renderer->render($content);
+			static::$locator->renderer_cli->render($content);
 		}
 
 		return $this;
