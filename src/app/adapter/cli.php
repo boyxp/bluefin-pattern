@@ -12,13 +12,13 @@ class cli extends \injector implements appInterface
 
 		defined('STDIN')  or define('STDIN',  fopen('php://stdin',  'r'));
 		defined('STDOUT') or define('STDOUT', fopen('php://stdout', 'w'));
-		defined('STDERR') or define('STDIN',  fopen('php://stderr', 'w'));
+		defined('STDERR') or define('STDERR', fopen('php://stderr', 'w'));
 	}
 
 	public function route(string $subject=null):appInterface
 	{
 		if(is_null($subject)) {
-			$subject = 'CLI:'.(isset($argv[1]) ? $argv[1] : '/');
+			$subject = 'CLI:'.(isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : '/');
 		}
 
 		$route = static::$locator->router->route($subject);
