@@ -6,7 +6,7 @@ class json implements rendererInterface
 {
 	private $_charset = null;
 
-	public function __construct($charset='utf-8')
+	public function __construct(string $charset='utf-8')
 	{
 		$this->_charset = $charset;
 	}

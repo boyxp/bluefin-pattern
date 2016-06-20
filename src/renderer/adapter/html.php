@@ -6,7 +6,7 @@ class html extends \injector implements rendererInterface
 {
 	private $_tplPath = '';
 
-	public function __construct($tplPath)
+	public function __construct(string $tplPath)
 	{
 		$this->_tplPath = $tplPath;
 	}
