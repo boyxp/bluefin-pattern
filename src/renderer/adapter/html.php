@@ -6,7 +6,7 @@ class html extends \injector implements rendererInterface
 {
 	private $_tplPath = '';
 
-	public function __construct(string $tplPath)
+	public function __construct(string $tplPath='../view/%s.tpl')
 	{
 		$this->_tplPath = $tplPath;
 	}
@@ -15,6 +15,10 @@ class html extends \injector implements rendererInterface
 	{
 		if(strpos($this->_tplPath, '%s')) {
 			$handle = static::$locator->router->getHandle();
+			if(is_null($handle)) {
+				return false;
+			}
+
 			if(is_array($handle)) {
 				$handle = implode('\\', $handle);
 			}
