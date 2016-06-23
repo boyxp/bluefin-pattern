@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 namespace bluefin\pattern\router\adapter;
-use bluefin\base\registry\registry;
 use bluefin\pattern\router\router as routerInterface;
 class router extends \injector implements routerInterface
 {
@@ -9,9 +8,13 @@ class router extends \injector implements routerInterface
 	private $_handle   = null;
 	private $_matches  = [];
 
-	public function __construct(string $prefix='routes')
+	public function __construct(string $registry='registry')
 	{
-		$this->_registry = static::$locator->make('registry', [$prefix]);
+		if(static::$locator->has($registry)===false) {
+			throw new \InvalidArgumentException('error');
+		}
+
+		$this->_registry = static::$locator->make($registry, ['routes']);
 	}
 
 	public function add(string $pattern, $handle):routerInterface
